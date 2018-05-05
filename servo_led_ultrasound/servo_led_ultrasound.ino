@@ -42,8 +42,7 @@ SoftwareSerial mySerial(PIN_RX, PIN_TX);
 //dafruit_PWMServo part
 #define SERVOMIN  150 // this is the 'minimum' pulse length count (out of 4096)
 #define SERVOMAX  600 // this is the 'maximum' pulse length count (out of 4096)
-#define PWM14     14
-#define PWM15     15
+
 
 
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
@@ -70,8 +69,6 @@ void setup() {
 
 void loop() {
   // Drive each servo one at a time
-  Serial.print("servonum ");
-  Serial.print(servonum);
   Serial.print(" sound 1 :");
   Serial.print(ultrasonic1.distanceRead());
   delay(1);
@@ -88,25 +85,18 @@ void loop() {
   Serial.println("");
 
 
-  // set po A
-  pwm.setPWM(PWM14, 0, SERVOMIN);
-  pwm.setPWM(PWM15, 0, SERVOMIN);
-  delay(500);
 
-  // set po B
-  pwm.setPWM(PWM14, 0, SERVOMAX);
-  pwm.setPWM(PWM15, 0, SERVOMAX);
-  delay(500);
-  
-  // set po C
-  pwm.setPWM(PWM14, 0, SERVOMIN);
-  pwm.setPWM(PWM15, 0, SERVOMAX);
-  delay(500);
-  
-  // set po D
-  pwm.setPWM(PWM14, 0, SERVOMAX);
-  pwm.setPWM(PWM15, 0, SERVOMIN);
-  delay(500);
-  servonum ++;
-  if (servonum > 15) servonum = 0;
+  // set po A
+  for(int iloop=0 ; iloop < 16 ; iloop++)
+  {
+    pwm.setPWM(iloop, 0, SERVOMIN);
+    delay(50);
+  }
+
+  for(int iloop=0 ; iloop < 16 ; iloop++)
+  {
+    pwm.setPWM(iloop, 0, SERVOMAX);
+    delay(50);
+  }
+
 }
